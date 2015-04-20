@@ -7,7 +7,7 @@
     },
     "devDependencies": {
         "should": "*",
-        ""mocha": "*"
+        "mocha": "*"
     },
     "description": "Heap queue implementation for nodejs/iojs.",
     "author": "hit9 <hit9@icloud.com>",
