@@ -1,0 +1,12 @@
+{
+    "name": "heapq",
+    "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/hit9/heapq.js"
+    },
+    "description": "Heap queue implementation for nodejs/iojs.",
+    "author": "hit9 <hit9@icloud.com>",
+    "keywords": ["heapq", "heap", "queue"],
+    "license": "MIT"
+}
