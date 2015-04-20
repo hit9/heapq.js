@@ -26,7 +26,7 @@ API Refs
 - **heapq.pushpop(heap[, cmp])**, push an item on the heap and pop out the smallest item,
    this runs more efficiently than `heapq.push()` followed by a separate call to `heapq.pop()`. *O(log n)*
 - **heapq.heapify(arr[, cmp])**, transform array `heap` into a heap in-place. *O(nlog n)*
-- **heapq.heapsort(arr[, cmp])**, heap sort. *O(n logn)*
+- **heapq.heapsort(arr[, cmp])**, new a sorted array by heap-sort. *O(n logn)*
 
 Comparator
 ----------
