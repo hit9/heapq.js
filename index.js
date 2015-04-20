@@ -41,7 +41,7 @@ exports.pushpop = function(heap, item) {
   return item;
 };
 
-// transform array `heap` into a heap in-place. O(n)
+// transform array `heap` into a heap in-place.
 exports.heapify = function(arr) {
   for (var idx = Math.floor(arr.length / 2) - 1;
        idx >= 0; --idx)
