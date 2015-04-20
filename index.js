@@ -1,10 +1,12 @@
 'use strict';
 
+// push an item into heap
 exports.push = function(heap, item) {
   heap.push(item);
   siftdown(heap, 0, heap.length - 1);
 };
 
+// pop the smallest item from heap
 exports.pop = function(heap) {
   if (heap.length > 0) {
     var last = heap.pop();
@@ -20,11 +22,15 @@ exports.pop = function(heap) {
   }
 };
 
+// get the smallest item
 exports.top = function(heap) {
   if (heap.length !== 0)
     return heap[0];
 };
 
+// push an item on the heap and pop out the smallest item,
+// this runs more efficiently than `heapq.push()` followed
+// by a separate call to `heapq.pop()`
 exports.pushpop = function(heap, item) {
   if (heap.length > 0 && cmplt(heap[0], item)) {
     var temp = heap[0];
@@ -35,10 +41,11 @@ exports.pushpop = function(heap, item) {
   return item;
 };
 
-exports.heapify = function(heap) {
-  for (var idx = Math.floor(heap.length / 2) - 1;
+// transform array `heap` into a heap in-place. O(n)
+exports.heapify = function(arr) {
+  for (var idx = Math.floor(arr.length / 2) - 1;
        idx >= 0; --idx)
-    siftup(heap, idx);
+    siftup(arr, idx);
 };
 
 function cmplt(x, y) {
