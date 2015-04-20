@@ -1,20 +1,26 @@
 'use strict';
 
-// push an item into heap
-exports.push = function(heap, item) {
-  heap.push(item);
-  siftdown(heap, 0, heap.length - 1);
+var heapq = exports;
+
+var cmplt = function(x, y) {
+  return x < y;
 };
 
-// pop the smallest item from heap
-exports.pop = function(heap) {
+// push an item into heap, O(log n)
+heapq.push = function(heap, item, cmp) {
+  heap.push(item);
+  siftdown(heap, 0, heap.length - 1, cmp || cmplt);
+};
+
+// pop the smallest item from heap, O(log n)
+heapq.pop = function(heap, cmp) {
   if (heap.length > 0) {
     var last = heap.pop();
 
     if (heap.length > 0) {
       var head = heap[0];
       heap[0] = last;
-      siftup(heap, 0);
+      siftup(heap, 0, cmp || cmplt);
       return head;
     } else {
       return last;
@@ -22,43 +28,58 @@ exports.pop = function(heap) {
   }
 };
 
-// get the smallest item
-exports.top = function(heap) {
+// get the top item, O(1)
+heapq.top = function(heap) {
   if (heap.length !== 0)
     return heap[0];
 };
 
-// push an item on the heap and pop out the smallest item,
+// push an item on the heap and pop out the top item,
 // this runs more efficiently than `heapq.push()` followed
-// by a separate call to `heapq.pop()`
-exports.pushpop = function(heap, item) {
-  if (heap.length > 0 && cmplt(heap[0], item)) {
+// by a separate call to `heapq.pop()`, O(log n)
+heapq.pushpop = function(heap, item, cmp) {
+  cmp = cmp || cmplt;
+
+  if (heap.length > 0 && cmp(heap[0], item)) {
     var temp = heap[0];
     heap[0] = item;
     item = temp;
-    siftup(heap, 0);
+    siftup(heap, 0, cmp);
   }
   return item;
 };
 
-// transform array `heap` into a heap in-place.
-exports.heapify = function(arr) {
+// transform array `heap` into a heap in-place, O(nlog n)
+heapq.heapify = function(arr, cmp) {
+  cmp = cmp || cmplt;
+
   for (var idx = Math.floor(arr.length / 2) - 1;
        idx >= 0; --idx)
-    siftup(arr, idx);
+    siftup(arr, idx, cmp);
+  return arr;
 };
 
-function cmplt(x, y) {
-  return x < y;
-}
+// heap sort, O(nlog n)
+heapq.heapsort = function(arr, cmp) {
+  var heap = [];
 
-function siftdown(heap, startIdx, idx) {
+  for (var i = 0; i < arr.length; ++i)
+    heapq.push(heap, arr[i], cmp);
+
+  var arr_ = [];
+
+  while (heap.length > 0)
+    arr_.push(heapq.pop(heap, cmp));
+  return arr_;
+};
+
+function siftdown(heap, startIdx, idx, cmp) {
   var item = heap[idx];
 
   while (idx > startIdx) {
     var parentIdx = (idx - 1) >> 1;
     var parentItem = heap[parentIdx];
-    if (cmplt(item, parentItem)) {
+    if (cmp(item, parentItem)) {
       heap[idx] = parentItem;
       idx = parentIdx;
       continue;
@@ -69,7 +90,7 @@ function siftdown(heap, startIdx, idx) {
   heap[idx] = item;
 }
 
-function siftup(heap, idx) {
+function siftup(heap, idx, cmp) {
   var endIdx = heap.length;
   var startIdx = idx;
   var item = heap[idx];
@@ -79,7 +100,7 @@ function siftup(heap, idx) {
   while (childIdx < endIdx) {
     var rightIdx = childIdx + 1;
 
-    if (rightIdx < endIdx && (!cmplt(
+    if (rightIdx < endIdx && (!cmp(
       heap[childIdx], heap[rightIdx]))) {
       childIdx = rightIdx;
     }
@@ -89,5 +110,5 @@ function siftup(heap, idx) {
   }
 
   heap[idx] = item;
-  siftdown(heap, startIdx, idx);
+  siftdown(heap, startIdx, idx, cmp);
 }
