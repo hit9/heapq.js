@@ -4,24 +4,26 @@ var assert = require('assert');
 var should = require('should');
 var heapq = require('./index');
 
+var cmp = function(x, y) {return x[0] < y[0];}
+
 describe('heapq', function() {
   it('heapq.push', function() {
     var heap = [];
-    heapq.push(heap, [1, 'a']);
-    heapq.push(heap, [2, 'b']);
+    heapq.push(heap, [1, 'a'], cmp);
+    heapq.push(heap, [2, 'b'], cmp);
     should(heapq.top(heap)).eql([1, 'a']);
-    should(heapq.pop(heap)).eql([1, 'a']);
-    should(heapq.pop(heap)).eql([2, 'b']);
+    should(heapq.pop(heap, cmp)).eql([1, 'a']);
+    should(heapq.pop(heap, cmp)).eql([2, 'b']);
   });
 
   it('heapq.pop', function() {
     var heap = [];
-    heapq.push(heap, [3, 'a']);
-    heapq.push(heap, [4, 'b']);
-    heapq.push(heap, [2, 'c']);
-    should(heapq.pop(heap)).eql([2, 'c']);
-    should(heapq.pop(heap)).eql([3, 'a']);
-    should(heapq.pop(heap)).eql([4, 'b']);
+    heapq.push(heap, [3, 'a'], cmp);
+    heapq.push(heap, [4, 'b'], cmp);
+    heapq.push(heap, [2, 'c'], cmp);
+    should(heapq.pop(heap, cmp)).eql([2, 'c']);
+    should(heapq.pop(heap, cmp)).eql([3, 'a']);
+    should(heapq.pop(heap, cmp)).eql([4, 'b']);
   });
 
   it('heapq.top', function() {

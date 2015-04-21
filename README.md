@@ -7,14 +7,15 @@ Heap queue implementation for nodejs/iojs.
 var heapq = require('heapq');
 
 var heap = [];
+var cmp = function(x, y) {return x[0] < y[0];}
 
-heapq.push(heap, [3, 'a']);
-heapq.push(heap, [4, 'b']);
-heapq.push(heap, [2, 'c']);
-heapq.push(heap, [1, 'd']);
+heapq.push(heap, [3, 'a'], cmp);
+heapq.push(heap, [4, 'b'], cmp);
+heapq.push(heap, [2, 'c'], cmp);
+heapq.push(heap, [1, 'd'], cmp);
 
-heapq.pop(heap);  // [1, 'd']
-heapq.pop(heap);  // [2, 'c']
+heapq.pop(heap, cmp);  // [1, 'd']
+heapq.pop(heap, cmp);  // [2, 'c']
 ```
 
 API Refs
@@ -38,7 +39,6 @@ function(x, y) {return x < y;}
 ```
 
 - this results a "top smallest heap".
-- this works with items: numbers, strings, or arrays like [non-negative, obj] etc.
 
 License
 --------
